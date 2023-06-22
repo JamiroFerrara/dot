@@ -8,8 +8,8 @@ pub struct ConfigurationFile {
 }
 
 impl ConfigurationFile {
-    pub fn new() -> ConfigurationFile {
-        ConfigurationFile { files: Vec::new() }
+    pub fn new(files: Vec<String>) -> ConfigurationFile {
+        ConfigurationFile { files }
     }
 
     pub fn serialize(&self, path: String) {
@@ -25,6 +25,7 @@ impl ConfigurationFile {
         file.read_to_string(&mut contents)
             .expect("Failed to open file..");
         let res: ConfigurationFile = serde_json::from_str(&contents).unwrap();
+        println!("{}", contents);
         *self = res
     }
 }

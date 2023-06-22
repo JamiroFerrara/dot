@@ -1,10 +1,8 @@
 mod constants;
-mod dotfile;
 mod file;
 
 use anyhow::Result;
 use constants::HOME_PATH;
-use dotfile::Dotfile;
 use file::ConfigurationFile;
 use std::fs;
 use std::io;
@@ -13,42 +11,50 @@ use std::path::Path;
 #[derive(Debug)]
 pub struct Config {
     pub home: String,
-    pub dotfiles: Vec<Dotfile>,
+    pub dotfiles: Vec<String>,
     pub file: ConfigurationFile,
 }
 
 impl Config {
-    pub fn init() -> Result<Config> {
-        let file = load_file()?;
+    pub fn init() -> Config {
+        let mut files: Vec<String> = Vec::new();
+        files.push("/home/stiwie/.config/test.txt".to_string());
+        let mut file = ConfigurationFile::new(files);
 
-        let mut files: Vec<Dotfile> = Vec::new();
-        files.push(Dotfile::new(""));
+        let config_path = get_config_path();
+        match config_exists() {
+            true => file.deserialize(config_path),
+            false => file.serialize(config_path),
+        }
 
-        return Ok(Config {
-            dotfiles: files,
+        return Config {
+            dotfiles: file.files.clone(),
             home: HOME_PATH.to_string(),
             file,
-        });
+        };
     }
-}
-
-pub fn load_file() -> Result<ConfigurationFile> {
-    let mut file = ConfigurationFile::new();
-    let config_path = get_config_path();
-    match config_exists() {
-        true => file.deserialize(config_path),
-        false => file.serialize(config_path),
-    }
-    Ok(file)
 }
 
 pub fn get_config_path() -> String {
-    let path = HOME_PATH.to_string() + "/config.json";
-    path
+    HOME_PATH.to_string() + "/config.json"
 }
 
 pub fn config_exists() -> bool {
     let file_path = get_config_path();
+    let path = Path::new(&file_path);
+    match directory_exists() {
+        true => path.exists(),
+        false => {
+            let file_path = HOME_PATH.to_string();
+            fs::create_dir(file_path)
+                .expect("Something when wrong when creating the directory path..");
+            config_exists()
+        }
+    }
+}
+
+pub fn directory_exists() -> bool {
+    let file_path = HOME_PATH.to_string();
     let path = Path::new(&file_path);
     path.exists()
 }

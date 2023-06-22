@@ -10,20 +10,18 @@ use config::Config;
 struct Args {
     /// Number of times to greet
     #[arg(short, long)]
-    commit: Option<String>,
+    add: Option<String>,
 }
 
 fn main() {
     let args = Args::parse();
     let config = Config::init();
     match args {
-        Args { commit: None } => add(&config.unwrap()),
-        Args { commit: Some(path) } => commit(path),
+        Args { add: Some(path) } => add(&config, path),
+        Args { add: None } => commit(),
     }
 }
 
-fn add(config: &Config) {}
+fn add(config: &Config, path: String) {}
 
-fn commit(path: String) {
-    println!("Committing");
-}
+fn commit() {}
