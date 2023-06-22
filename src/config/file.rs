@@ -1,4 +1,8 @@
-use std::{fs::File, io::Read, os::unix::prelude::FileExt};
+use std::{
+    fs::{self, File},
+    io::Read,
+    os::unix::prelude::FileExt,
+};
 
 use serde::{Deserialize, Serialize};
 
@@ -24,6 +28,7 @@ impl ConfigurationFile {
 
     pub fn serialize(&self) {
         let path = HOME_PATH.to_string() + "/config.json";
+        let _ = fs::remove_file(path.clone());
         let res = serde_json::to_string_pretty(self).unwrap();
         let file = File::create(path).expect("Failed to create file..");
         file.write_all_at(res.as_bytes(), 0)
@@ -37,7 +42,6 @@ impl ConfigurationFile {
         file.read_to_string(&mut contents)
             .expect("Failed to open file..");
         let res: ConfigurationFile = serde_json::from_str(&contents).unwrap();
-        println!("{}", contents);
         *self = res
     }
 }

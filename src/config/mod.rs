@@ -11,14 +11,12 @@ use std::path::Path;
 #[derive(Debug)]
 pub struct Config {
     pub home: String,
-    pub dotfiles: Vec<String>,
     pub file: ConfigurationFile,
 }
 
 impl Config {
     pub fn init() -> Config {
-        let mut files: Vec<String> = Vec::new();
-        files.push("/home/stiwie/.config/test.txt".to_string());
+        let files: Vec<String> = Vec::new();
         let mut config = ConfigurationFile::new(files);
 
         match config_exists() {
@@ -27,7 +25,6 @@ impl Config {
         }
 
         return Config {
-            dotfiles: config.files.clone(),
             home: HOME_PATH.to_string(),
             file: config,
         };

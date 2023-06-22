@@ -1,5 +1,7 @@
 mod config;
 
+use std::fs;
+
 use anyhow::Result;
 use clap::Parser;
 use config::Config;
@@ -23,7 +25,8 @@ fn main() {
 }
 
 fn add(config: &mut Config, path: String) {
-    config.dotfiles.push(path);
+    println!("Adding.. {}", path);
+    config.file.files.push(path);
     config.file.serialize();
 }
 
