@@ -21,10 +21,9 @@ impl Config {
         files.push("/home/stiwie/.config/test.txt".to_string());
         let mut config = ConfigurationFile::new(files);
 
-        let config_path = get_config_path();
         match config_exists() {
-            true => config.deserialize(config_path),
-            false => config.serialize(config_path),
+            true => config.deserialize(),
+            false => config.serialize(),
         }
 
         return Config {
@@ -35,12 +34,8 @@ impl Config {
     }
 }
 
-pub fn get_config_path() -> String {
-    HOME_PATH.to_string() + "/config.json"
-}
-
 pub fn config_exists() -> bool {
-    let file_path = get_config_path();
+    let file_path = HOME_PATH.to_string() + "/config.json";
     let path = Path::new(&file_path);
     match directory_exists() {
         true => path.exists(),

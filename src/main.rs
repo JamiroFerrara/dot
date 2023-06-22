@@ -15,13 +15,16 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    let config = Config::init();
+    let mut config = Config::init();
     match args {
-        Args { add: Some(path) } => add(&config, path),
+        Args { add: Some(path) } => add(&mut config, path),
         Args { add: None } => commit(),
     }
 }
 
-fn add(config: &Config, path: String) {}
+fn add(config: &mut Config, path: String) {
+    config.dotfiles.push(path);
+    config.file.serialize();
+}
 
 fn commit() {}

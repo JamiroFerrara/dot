@@ -2,6 +2,8 @@ use std::{fs::File, io::Read, os::unix::prelude::FileExt};
 
 use serde::{Deserialize, Serialize};
 
+use super::constants::HOME_PATH;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ConfigurationFile {
     pub git_user: String,
@@ -20,14 +22,16 @@ impl ConfigurationFile {
         }
     }
 
-    pub fn serialize(&self, path: String) {
+    pub fn serialize(&self) {
+        let path = HOME_PATH.to_string() + "/config.json";
         let res = serde_json::to_string_pretty(self).unwrap();
         let file = File::create(path).expect("Failed to create file..");
         file.write_all_at(res.as_bytes(), 0)
             .expect("Failed to write configuration file..");
     }
 
-    pub fn deserialize(&mut self, path: String) {
+    pub fn deserialize(&mut self) {
+        let path = HOME_PATH.to_string() + "/config.json";
         let mut file = File::open(path).expect("Failed to open file..");
         let mut contents = String::new();
         file.read_to_string(&mut contents)
