@@ -1,5 +1,6 @@
 mod constants;
 mod file;
+mod syncronizable;
 
 use anyhow::Result;
 use constants::HOME_PATH;
@@ -7,6 +8,9 @@ use file::ConfigurationFile;
 use std::fs;
 use std::io;
 use std::path::Path;
+use std::path::PathBuf;
+
+pub use syncronizable::Syncronizable;
 
 #[derive(Debug)]
 pub struct Config {
@@ -16,7 +20,7 @@ pub struct Config {
 
 impl Config {
     pub fn init() -> Config {
-        let files: Vec<String> = Vec::new();
+        let files: Vec<PathBuf> = Vec::new();
         let mut config = ConfigurationFile::new(files);
 
         match config_exists() {

@@ -1,10 +1,9 @@
 mod config;
 
-use std::fs;
+use std::path::PathBuf;
 
-use anyhow::Result;
 use clap::Parser;
-use config::Config;
+use config::{Config, Syncronizable};
 
 /// Simple program to greet a person
 #[derive(Parser, Debug)]
@@ -12,7 +11,7 @@ use config::Config;
 struct Args {
     /// Number of times to greet
     #[arg(short, long)]
-    add: Option<String>,
+    add: Option<PathBuf>,
 }
 
 fn main() {
@@ -24,10 +23,22 @@ fn main() {
     }
 }
 
-fn add(config: &mut Config, path: String) {
-    println!("Adding.. {}", path);
-    config.file.files.push(path);
-    config.file.serialize();
+fn add(config: &mut Config, path: PathBuf) {
+    let current_dir = std::env::current_dir().unwrap();
+    let full_path = current_dir.join(&path);
+    let full_path_str = full_path.to_string_lossy().to_string();
+    println!("Adding.. {}", full_path_str);
+    if !config.file.files.contains(&full_path) {
+        config.file.files.push(full_path);
+    }
+    syncronize(config);
 }
 
-fn commit() {}
+fn syncronize(config: &mut Config) {
+    config.file.serialize();
+    config.file.files.syncronize(config.home.to_string());
+}
+
+fn commit() {
+    //TODO: Implement github repo creation an commit
+}

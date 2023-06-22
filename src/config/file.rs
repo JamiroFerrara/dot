@@ -2,6 +2,7 @@ use std::{
     fs::{self, File},
     io::Read,
     os::unix::prelude::FileExt,
+    path::PathBuf,
 };
 
 use serde::{Deserialize, Serialize};
@@ -12,11 +13,11 @@ use super::constants::HOME_PATH;
 pub struct ConfigurationFile {
     pub git_user: String,
     pub git_url: String,
-    pub files: Vec<String>,
+    pub files: Vec<PathBuf>,
 }
 
 impl ConfigurationFile {
-    pub fn new(files: Vec<String>) -> ConfigurationFile {
+    pub fn new(files: Vec<PathBuf>) -> ConfigurationFile {
         let git_url = "https://github.com/JamiroFerrara/.dotfiles".to_string();
         let git_user = "Jamiro Ferrara".to_string();
         ConfigurationFile {
