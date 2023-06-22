@@ -19,18 +19,18 @@ impl Config {
     pub fn init() -> Config {
         let mut files: Vec<String> = Vec::new();
         files.push("/home/stiwie/.config/test.txt".to_string());
-        let mut file = ConfigurationFile::new(files);
+        let mut config = ConfigurationFile::new(files);
 
         let config_path = get_config_path();
         match config_exists() {
-            true => file.deserialize(config_path),
-            false => file.serialize(config_path),
+            true => config.deserialize(config_path),
+            false => config.serialize(config_path),
         }
 
         return Config {
-            dotfiles: file.files.clone(),
+            dotfiles: config.files.clone(),
             home: HOME_PATH.to_string(),
-            file,
+            file: config,
         };
     }
 }

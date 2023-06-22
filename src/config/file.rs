@@ -4,12 +4,20 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ConfigurationFile {
+    pub git_user: String,
+    pub git_url: String,
     pub files: Vec<String>,
 }
 
 impl ConfigurationFile {
     pub fn new(files: Vec<String>) -> ConfigurationFile {
-        ConfigurationFile { files }
+        let git_url = "https://github.com/JamiroFerrara/.dotfiles".to_string();
+        let git_user = "Jamiro Ferrara".to_string();
+        ConfigurationFile {
+            files,
+            git_url,
+            git_user,
+        }
     }
 
     pub fn serialize(&self, path: String) {
