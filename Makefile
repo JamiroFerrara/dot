@@ -16,5 +16,5 @@ run:
 	cargo run
 
 publish:
-	git tag $1
-	git push origin $1
+	git tag $(tag)
+	git push origin $(tag)
