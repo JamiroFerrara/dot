@@ -6,6 +6,8 @@ use std::{path::PathBuf, process::Command};
 use clap::Parser;
 use config::{Config, Syncronizable, HOME_PATH};
 
+use shell_tools::sh;
+
 /// Simple program to manage dotfiles
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -13,13 +15,27 @@ struct Args {
     /// Files to add to the dotfile directory
     #[arg(short, long)]
     add: Option<PathBuf>,
+
+    /// Files to add to the dotfile directory
+    #[arg(short, long)]
+    reset: Option<i32>,
 }
 
 fn main() {
     let mut config = Config::init();
     match Args::parse() {
-        Args { add: None } => syncronize(&mut config),
-        Args { add: Some(path) } => add(&mut config, path),
+        Args {
+            add: None,
+            reset: None,
+        } => syncronize(&mut config),
+        Args {
+            add: Some(path),
+            reset: None,
+        } => add(&mut config, path),
+        Args {
+            add: None,
+            reset: Some(_),
+        } => reset(),
         _ => {}
     }
 }
@@ -47,4 +63,6 @@ fn syncronize(config: &mut Config) {
     commit();
 }
 
-fn reset() {}
+fn reset() {
+    sh!("sudo rm -dfr /home/stiwie/.dotfiles/");
+}

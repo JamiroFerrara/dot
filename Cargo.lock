@@ -125,6 +125,7 @@ dependencies = [
  "clap",
  "serde",
  "serde_json",
+ "shell-tools",
 ]
 
 [[package]]
@@ -275,6 +276,12 @@ dependencies = [
  "ryu",
  "serde",
 ]
+
+[[package]]
+name = "shell-tools"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dd7f97cc8ec29079c2cd57f8db0775997815467f6aad8e8b7dccb01843525ce9"
 
 [[package]]
 name = "strsim"
