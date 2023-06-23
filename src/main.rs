@@ -36,7 +36,7 @@ fn add(config: &mut Config, path: PathBuf) {
 
 fn syncronize(config: &mut Config) {
     config.file.serialize();
-    config.file.files.syncronize(config.home.to_string());
+    config.syncronize(config.home.to_string());
 }
 
 fn commit() {

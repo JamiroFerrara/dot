@@ -7,6 +7,7 @@ reset:
 
 view:
 	sudo cat /home/stiwie/.dotfiles/config.json
+	ls -lsa /home/stiwie/.dotfiles/
 
 build:
 	cargo build

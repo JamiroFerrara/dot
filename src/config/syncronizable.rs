@@ -7,9 +7,10 @@ pub trait Syncronizable {
 impl Syncronizable for Vec<PathBuf> {
     fn syncronize(&self, destination: String) {
         for path in self {
-            //let file_name = path.file_name().expect("Error getting file name..");
-            let _ = fs::copy(&path, &destination)
-                .map(|_| println!("Copied {} to {}", path.display(), destination));
+            let file_name = path.file_name().expect("Error getting file name..");
+            let full_dest = destination.clone() + "/" + file_name.to_str().unwrap();
+            println!("Copied {} to {}", path.display(), full_dest);
+            fs::copy(&path, &full_dest).expect("There was an error when syncronizing the files..");
         }
     }
 }

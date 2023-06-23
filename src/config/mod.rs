@@ -49,6 +49,12 @@ pub fn config_exists() -> bool {
     }
 }
 
+impl Syncronizable for Config {
+    fn syncronize(&self, destination: String) {
+        self.file.files.syncronize(destination);
+    }
+}
+
 pub fn directory_exists() -> bool {
     let file_path = HOME_PATH.to_string();
     let path = Path::new(&file_path);
