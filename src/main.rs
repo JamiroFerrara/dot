@@ -64,5 +64,5 @@ fn syncronize(config: &mut Config) {
 }
 
 fn reset() {
-    sh!("sudo rm -dfr /home/stiwie/.dotfiles/");
+    sh!("sudo rm -dfr /home/stiwie/.dotfiles/", ".");
 }

@@ -279,9 +279,9 @@ dependencies = [
 
 [[package]]
 name = "shell-tools"
-version = "0.1.2"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd7f97cc8ec29079c2cd57f8db0775997815467f6aad8e8b7dccb01843525ce9"
+checksum = "5aa626175f537f420e02828c1757315cee21915f33872c054b055f52d4e37ded"
 
 [[package]]
 name = "strsim"
