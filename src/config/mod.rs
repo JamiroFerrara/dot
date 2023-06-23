@@ -51,6 +51,7 @@ pub fn config_exists() -> bool {
 
 impl Syncronizable for Config {
     fn syncronize(&self, destination: String) {
+        self.file.serialize();
         self.file.files.syncronize(destination);
     }
 }
