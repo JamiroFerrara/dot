@@ -1,9 +1,10 @@
 mod config;
+mod git;
 
-use std::path::PathBuf;
+use std::{path::PathBuf, process::Command};
 
 use clap::Parser;
-use config::{Config, Syncronizable};
+use config::{Config, Syncronizable, HOME_PATH};
 
 /// Simple program to manage dotfiles
 #[derive(Parser, Debug)]
@@ -37,14 +38,13 @@ fn add(config: &mut Config, path: PathBuf) {
     }
 }
 
-fn commit(config: &mut Config) {
-    //TODO: Implement github repo creation an commit
+fn commit() {
+    git::commit(HOME_PATH.to_string());
 }
 
 fn syncronize(config: &mut Config) {
     config.syncronize(config.home.to_string());
+    commit();
 }
 
-fn reset() {
-    //TODO: Implement reset function
-}
+fn reset() {}

@@ -18,3 +18,4 @@ run:
 publish:
 	git tag $(tag)
 	git push origin $(tag)
+	git push

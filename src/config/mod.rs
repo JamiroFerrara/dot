@@ -3,7 +3,7 @@ mod file;
 mod syncronizable;
 
 use anyhow::Result;
-use constants::HOME_PATH;
+pub use constants::HOME_PATH;
 use file::ConfigurationFile;
 use std::fs;
 use std::io;
